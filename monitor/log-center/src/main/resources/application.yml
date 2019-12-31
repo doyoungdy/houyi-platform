@@ -1,0 +1,15 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-name: ${houyi.elasticsearch.cluster-name}
+      cluster-nodes: ${houyi.elasticsearch.cluster-nodes}
+      repositories:
+        enabled: true
+
+houyi:
+  swagger:
+    enabled: true
+    title: 日志中心
+    description: 日志中心接口文档
+    version: 1.0
+    base-package: com.houyi.log.controller

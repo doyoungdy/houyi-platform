@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:mysql://${houyi.datasource.ip}:3306/oauth-center?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: ${houyi.datasource.username}
+    password: ${houyi.datasource.password}
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.houyi.common.model
+  global-config:
+    db-config:
+      id-type: auto
+
+houyi:
+  swagger:
+    enabled: true
+    title: 用户中心
+    description: 用户中心接口文档
+    version: 1.0
+    base-package: com.houyi.client.controller
+  cache-manager:
+    configs:
+

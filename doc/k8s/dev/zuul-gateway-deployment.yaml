@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zuul-gateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: zuul-gateway-server
+  template:
+    metadata:
+      labels:
+        tier: zuul-gateway-server
+    spec:
+      initContainers:
+      - name: skywalking-agent-gateway
+        image: 10.10.108.114:5000/skywalking-agent:6.0.0 
+        command: ["cp", "-rf", "/agent", "/tmp"]
+        volumeMounts:
+        - mountPath: /tmp
+          name: sky-agent-volume
+      containers:
+      - name: zuul-gateway-containers
+        image: 10.10.108.114:5000/microservices-platform/zuul-gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 9900
+        env: 
+        - name: ENV_PROFILE
+          value: dev          
+        - name: SW_AGENT_NAMESPACE
+          value: houyi-paltform
+        - name: SW_AGENT_NAME
+          value: dev_zuul-gateway
+        - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+          value: 10.7.91.65:11800
+        volumeMounts:
+        - mountPath: /logs
+          name: tmp
+        - mountPath: /skywalking
+          name: sky-agent-volume  
+      volumes:
+      - name: tmp
+        hostPath:
+          path: /home/k8s/containers/houyi-platform
+      - name: sky-agent-volume
+        emptyDir: {}          

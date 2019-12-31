@@ -1,0 +1,21 @@
+server:
+  port: 9900
+
+houyi:
+  nacos:
+    server-addr: 127.0.0.1:8848
+
+spring:
+  application:
+    name: sc-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: ${houyi.nacos.server-addr}
+        namespace: ${houyi.nacos.namespace}      
+        file-extension: yml
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+      discovery:
+        server-addr: ${houyi.nacos.server-addr}
+        namespace: ${houyi.nacos.namespace}      

@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.houyi.saas</groupId>
+    <artifactId>houyi-platform</artifactId>
+    <version>1.4.1</version>
+  </parent>
+  <artifactId>monitor</artifactId>
+  <packaging>pom</packaging>
+  
+  <modules>
+    <!-- 应用监控 -->
+    <module>sc-admin</module>
+      <!-- 日志中心 -->
+      <module>log-center</module>
+      <!-- 限流熔断控制台 -->
+      <module>sentinel-dashboard</module>
+  </modules>
+</project>

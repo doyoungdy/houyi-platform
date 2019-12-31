@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.houyi.common.ribbon.RibbonAutoConfigure,\
+com.houyi.common.ribbon.FeignAutoConfigure,\
+com.houyi.common.ribbon.RestTemplateAutoConfigure

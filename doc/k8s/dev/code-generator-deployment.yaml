@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: code-generator
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: code-generator-server
+  template:
+    metadata:
+      labels:
+        tier: code-generator-server
+    spec:
+      containers:
+      - name: code-generator-containers
+        image: 10.10.108.114:5000/microservices-platform/code-generator:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 7300
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 7300 
+          initialDelaySeconds: 60 
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 5  
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 7300 
+          initialDelaySeconds: 60 
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 5 
+        volumeMounts:
+          - mountPath: /logs
+            name: tmp
+      volumes:
+      - name: tmp
+        hostPath:
+          path: /home/k8s/containers/houyi-platform

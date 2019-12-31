@@ -1,0 +1,17 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: user-center
+  cloud:
+    nacos:
+      config:
+        namespace: ${houyi.nacos.namespace}
+        server-addr: ${houyi.nacos.server-addr}
+        file-extension: yml
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+      discovery:
+        namespace: ${houyi.nacos.namespace}
+        server-addr: ${houyi.nacos.server-addr}

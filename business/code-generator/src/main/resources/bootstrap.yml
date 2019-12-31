@@ -1,0 +1,22 @@
+server:
+  port: 7300
+
+houyi:
+  nacos:
+    server-addr: 10.7.91.65:8848
+#    server-addr: 127.0.0.1:8848
+
+spring:
+  application:
+    name: code-generator
+  cloud:
+    nacos:
+      config:
+        namespace: ${houyi.nacos.namespace}
+        server-addr: ${houyi.nacos.server-addr}
+        file-extension: yml
+        shared-dataids: common.yml
+        refreshable-dataids: common.yml
+      discovery:
+        namespace: ${houyi.nacos.namespace}      
+        server-addr: ${houyi.nacos.server-addr}

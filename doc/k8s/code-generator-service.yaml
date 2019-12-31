@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-generator-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - port: 7300
+    targetPort: 7300
+    name: code-generator-server-port
+    nodePort: 7300
+  selector:
+    tier: code-generator-server

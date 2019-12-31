@@ -1,0 +1,46 @@
+server:
+  port: 9900
+  undertow:
+    buffer-size: 1024
+    direct-buffers: true
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      config:
+        namespace: ${houyi.nacos.namespace}
+        server-addr: ${houyi.nacos.server-addr}
+        file-extension: yaml
+        shared-dataids: common.yaml
+        refreshable-dataids: common.yaml
+#        namespace: 
+#        server-addr: saas-nacos:8848
+#        file-extension: yaml
+#        shared-dataids: common.yaml
+#        refreshable-dataids: common.yaml         
+      discovery:
+        namespace: ${houyi.nacos.namespace}
+        server-addr: ${houyi.nacos.server-addr}
+#    sentinel:
+#      datasource:
+#        ds6:
+#          nacos:
+#            namespace: 937dc061-370d-4cc1-8b32-61239c114e51
+#            server-addr: 127.0.0.1:8848
+#            dataId: ${spring.application.name}-flow-rules
+##            file-extension: text
+#            ruleType: flow
+#            group-id: SENTINEL_GROUP
+
+            #启用监控
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: 
+#        - "*"  # 开放所有端点health，info，metrics，通过actuator/+端点名就可以获取相应的信息。默认打开health和info
+#  endpoint:
+#    health:
+#      show-details: always  #未开启actuator/health时，我们获取到的信息是{"status":"UP"}，status的值还有可能是 DOWN。开启后打印详细信息

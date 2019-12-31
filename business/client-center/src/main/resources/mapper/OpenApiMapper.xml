@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.houyi.client.mapper.OpenApiMapper">
+    <select id="findApisByClientId" resultType="com.houyi.common.model.client.OpenApi">
+		select distinct t.* from client_open_api t
+		inner join client_r_template_api r on r.api_id = t.id
+		inner join client_r_template_client rl on rl.template_id = r.template_id
+		where
+		1=1
+		<if test="clientId != null">
+			and rl.client_id = #{clientId}
+		</if>
+		ORDER BY sort ASC
+	</select>
+	
+	    <select id="findApisByClient_Id" resultType="com.houyi.common.model.client.OpenApi">
+		select distinct t.* from client_open_api t
+		inner join client_r_template_api r on r.api_id = t.id
+		inner join client_r_template_client rl on rl.template_id = r.template_id
+		inner join oauth_client_details r2 on rl.client_id = r2.id
+		where
+		1=1
+		<if test="client_id != null">
+			and r2.client_id = #{client_id}
+		</if>
+		ORDER BY sort ASC
+	</select>
+</mapper>

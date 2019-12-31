@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: back-web
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: back-web-server
+  template:
+    metadata:
+      labels:
+        tier: back-web-server
+    spec:
+      initContainers:
+      - name: skywalking-agent-gateway
+        image: 10.10.108.114:5000/skywalking-agent:6.0.0 
+        command: ["cp", "-rf", "/agent", "/tmp"]
+        volumeMounts:
+        - mountPath: /tmp
+          name: sky-agent-volume    
+      containers:
+      - name: back-web-containers
+        image: 10.10.108.114:5000/microservices-platform/back-web:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8066
+        env: 
+        - name: ENV_PROFILE
+          value: dat          
+        - name: SW_AGENT_NAMESPACE
+          value: houyi-paltform
+        - name: SW_AGENT_NAME
+          value: dat_back-web
+        - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+          value: 10.7.91.65:11800          
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /skywalking
+          name: sky-agent-volume             
+      volumes:
+      - name: tmp
+        hostPath:
+          path: /home/k8s/containers/houyi-platform
+      - name: sky-agent-volume
+        emptyDir: {}                     

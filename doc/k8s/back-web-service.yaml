@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-web-service
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - port: 8066
+    targetPort: 8066
+    name: back-web-server-port
+    nodePort: 8066
+  selector:
+    tier: back-web-server

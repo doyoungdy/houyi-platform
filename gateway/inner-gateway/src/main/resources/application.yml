@@ -1,0 +1,88 @@
+spring:
+  # sentinel动态配置规则
+  cloud:
+    sentinel:
+      datasource:
+        # 限流
+        ds1:
+          nacos:
+            server-addr: ${houyi.nacos.server-addr}
+            namespace: ${houyi.nacos.namespace}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: flow
+        # 熔断
+        ds2:
+          nacos:
+            server-addr: ${houyi.nacos.server-addr}
+            namespace: ${houyi.nacos.namespace}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            rule-type: degrade
+        # 系统负载保护
+        ds3:
+          nacos:
+            server-addr: ${houyi.nacos.server-addr}
+            namespace: ${houyi.nacos.namespace}
+            dataId: ${spring.application.name}-system-rules
+            groupId: SENTINEL_GROUP
+            rule-type: system
+        # 授权    
+        ds4:
+          nacos:
+            server-addr: ${houyi.nacos.server-addr}
+            namespace: ${houyi.nacos.namespace}
+            dataId: ${spring.application.name}-authority-rules
+            groupId: SENTINEL_GROUP
+            rule-type: authority
+        # 热点参数限流    
+        ds5:
+          nacos:
+            server-addr: ${houyi.nacos.server-addr}
+            namespace: ${houyi.nacos.namespace}
+            dataId: ${spring.application.name}-param-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: param-flow
+            
+zuul:
+  ribbon-isolation-strategy: thread
+  ribbon:
+    eager-load:
+      enabled: true
+    threadPool:
+      useSeparateThreadPools: true
+      threadPoolKeyPrefix: inner-gateway
+  #关闭重试
+  retryable: false
+  #/oauth/token需要请求头处理
+  sensitive-headers:
+  ignored-headers: Access-Control-Allow-Credentials,Access-Control-Allow-Origin,Access-Control-Allow-Methods
+  add-host-header: true
+  routes:
+    business-apply:
+      path: /business-apply/**
+      service-id: business-apply
+      strip-prefix: true
+      custom-sensitive-headers: true
+  ssl-hostname-validation-enabled: false
+  
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maximumSize: 2000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+swagger:
+  butler:
+    api-docs-path:  v2/api-docs
+    swagger-version: 2.0
+    auto-generate-from-zuul-routes: true
+    generate-routes: user,file
