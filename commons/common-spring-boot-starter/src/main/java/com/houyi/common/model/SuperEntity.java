@@ -22,7 +22,7 @@ public class SuperEntity<T extends Model> extends Model<T> {
      * 主键ID
      */
     @TableId(type=IdType.UUID)
-    private String id;
+    private Long id;
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
